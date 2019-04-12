@@ -4,6 +4,18 @@
 # Create a virtual machine (or use an existing one), and connect to the Spark cluster as a client.
 # Your virtual machine should be 'ssc.small' flavor.
 # Add it to the 'ben' security group for it to work correctly with Spark.
+# Add a floating IP, and configure your ~/.ssh/config like this:
+
+# replace 130.238.x.y and ~/.ssh/id_rsa with your floating IP and key path appropriately.
+Host 130.238.x.y
+  User ubuntu
+  IdentityFile ~/.ssh/id_rsa
+  LocalForward 8888 localhost:8888
+  LocalForward 4040 localhost:4040
+  LocalForward 4041 localhost:4041
+  LocalForward 4042 localhost:4042
+  LocalForward 4043 localhost:4043
+
 
 #####################
 
@@ -21,7 +33,6 @@ sudo apt-get install -y openjdk-8-jdk
 
 # manually define a hostname for all the hosts on the ldsa project. this will make networking easier with spark:
 # if you have added entries to /etc/hosts yourself, you need to remove those.
-echo "# spark needs dns names..." | sudo tee -a /etc/hosts;
 for i in {1..255}; do echo "192.168.1.$i host-192-168-1-$i-ldsa" | sudo tee -a /etc/hosts; done
 for i in {1..255}; do echo "192.168.2.$i host-192-168-2-$i-ldsa" | sudo tee -a /etc/hosts; done
 
