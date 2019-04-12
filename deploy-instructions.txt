@@ -1,0 +1,113 @@
+
+
+# Hack to fix issue with ubuntu packages
+sudo sed -ie 's/nova.clouds.archive.ubuntu.com/se.archive.ubuntu.com/' /etc/apt/sources.list 
+
+## For this example, we'll install Spark worker and master on the same virual machine. Normally we'd put the master on its own machine.
+
+# update apt repo metadata
+sudo apt update
+
+# install java
+sudo apt-get install -y openjdk-8-jdk
+
+cd /usr/local
+
+# download Spark
+# (Get download link for Hadoop 2.7)
+sudo wget http://apache.mirrors.spacedump.net/spark/spark-2.4.1/spark-2.4.1-bin-hadoop2.7.tgz
+
+sudo tar -zxvf spark-2.4.1-bin-hadoop2.7.tgz
+
+
+
+# Env variable so PySpark can find Spark.
+echo PYSPARK_PYTHON=python3 >> ~/.bashrc
+
+# Tell Spark that we're using Python 3 -- need to use the same version everywhere -- why?
+# run bashrc so that these variables take effect immediately.
+
+
+echo "SPARK_HOME=/usr/local/spark-2.4.1-bin-hadoop2.7" | sudo tee -a /etc/environment
+echo "PYSPARK_PYTHON=python3" | sudo tee -a /etc/environment
+
+export PYSPARK_PYTHON=python3
+export SPARK_HOME=/usr/local/spark-2.4.1-bin-hadoop2.7
+
+
+# start spark
+cd /usr/local/spark-2.4.1-bin-hadoop2.7/
+
+
+# lets have a look at some of the spark directories..
+ls -l
+
+cd /usr/local/spark-2.4.1-bin-hadoop2.7/sbin
+# start the master on the current machine:
+sudo ./start-master.sh
+
+# check which network interface the master is listening on...
+netstat -tna
+
+# start the worker on the current machine (and tell it where the master is listening):
+sudo ./start-slave.sh spark://192.168.1.25:7077
+
+# are they running?
+jps
+
+
+
+# install python dependencies, start notebook
+
+# install the python package manager 'pip' -- it is recommended to do this directly 
+sudo apt-get install -y pip
+
+# this is a very old version of pip:
+python3 -m pip --version
+
+# upgrade it
+python3 -m pip install pip
+
+# install jupyter (installing via pip seems to be broken)
+sudo apt install jupyter-notebook
+
+# install pyspark, jupyter, and some other useful deps
+python3 -m pip install pyspark --user
+python3 -m pip install pandas --user
+python3 -m pip install matplotlib --user
+
+cd ~
+mkdir notebooks
+cd ~/notebooks
+jupyter notebook
+
+
+
+----
+----
+
+from pyspark.sql import SparkSession
+
+# replace 192.168.1.25 with the host where the spark master is running.
+
+# New API
+spark_session = SparkSession\
+        .builder\
+        .master("spark://192.168.1.25:7077") \
+        .appName("local_test")\
+        .getOrCreate()
+
+# Old API (RDD)
+spark_context = spark_session.sparkContext
+
+
+def add(a, b):
+    # commutative and associative!
+    return a + b
+
+rdd = spark_context.parallelize([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3)
+
+result = rdd.map(lambda x: x * 2)\
+            .reduce(add)
+
+print(result)
