@@ -1,10 +1,18 @@
 # These are instructions for deploying Apache Spark.
 # They include a hacks relevant for the SNIC cloud, which we wouldn't use for a production system.
 # For the lab, a spark cluster has already been deployed -- this will be an experiment!
-# Create a virtual machine (or use an existing one), and connect to the Spark cluster as a client.
-# Your virtual machine should be 'ssc.small' flavor.
-# Add it to the 'ben' security group for it to work correctly with Spark.
-# Add a floating IP, and configure your ~/.ssh/config like this:
+
+# 0. Check the Spark and HDFS cluster is operating by opening these links in your browser (on campus):
+#        http://130.238.29.245:8080
+#        http://130.238.29.245:50070
+
+# 0. Create a virtual machine (or use an existing one), and connect to the Spark cluster as a client.
+#    Your virtual machine should be 'ssc.small' flavor.
+#    Use Ubuntu 18.04 LTS as the source image.
+# 0. Add it to the 'spark-cluster-client' security group for it to work correctly with Spark.
+#    (The machines in the Spark cluster need to be able to connect to your VM)
+# 0. Add a floating IP to the VM
+# 0. Configure the ~/.ssh/config on your laptop/desktop machine like this:
 
 # replace 130.238.x.y and ~/.ssh/id_rsa with your floating IP and key path appropriately.
 Host 130.238.x.y
@@ -15,6 +23,8 @@ Host 130.238.x.y
   LocalForward 4041 localhost:4041
   LocalForward 4042 localhost:4042
   LocalForward 4043 localhost:4043
+
+
 
 
 #####################
@@ -44,7 +54,7 @@ sudo hostname host-$(hostname -I | awk '{$1=$1};1' | sed 's/\./-/'g)-ldsa ; host
 # For the lab, we'll just create a Python notebook, and use the existing Spark cluster.
 
 ########################################################################################################################
-##### Start Spark Master/Worker -- SKIP THIS FOR THE LAB SESSION: Proceed to 'Install the Python Notebook...') #####
+##### Start Spark Master/Worker -- SKIP THIS FOR THE LAB SESSION!!! Proceed to 'Install the Python Notebook...') #####
 
 cd ~
 
@@ -145,6 +155,15 @@ jupyter notebook
 
 # Now you can run the examples from the lectures in your own notebook.
 # Start with https://github.com/benblamey/jupyters-public/blob/master/ldsa-2019/Lecture1_Example1_ArraySquareandSum.ipynb
-# You'll need to change the host name for the Spark master, and namenode.
+# You'll need to change the host name for the Spark master, and namenode, to:
+#  192.168.1.153
+
+
+# When you start your application, you'll see it running in the Spark master web GUI (link at the top).
+# If you hover over the link to your application, you'll see the port number for the Web GUI for your application.
+# It will be 4040,4041,...
+# You can open the GUI in your web browser like this (e.g.):
+#   http://localhost:4040
+
 
 # P.S. Backup your code from the SNIC Cloud!
