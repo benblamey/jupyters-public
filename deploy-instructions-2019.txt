@@ -81,7 +81,7 @@ ls -l
 # -or-
 
 # start the worker on the current machine (and tell it where the master is listening -- the IP address of our master node from above):
-~/spark-2.4.1-bin-hadoop2.7/sbin/start-slave.sh spark://192.168.1.153:7077
+~/spark-2.4.1-bin-hadoop2.7/sbin/start-slave.sh spark://192.168.X.Y:7077
 
 netstat -tna
 
@@ -128,7 +128,7 @@ jupyter notebook
 #
 #    Copy/paste this URL into your browser when you connect for the first time,
 #    to login with a token:
-#        http://localhost:8888/?token=8af4be03b08713c66ed8d093a7d684108c69c86f5b63dd
+#        http://localhost:8888/?token=8af4be03b08713c66d8d093a7d684108c69c86f5b63dd
 
 
 
@@ -149,7 +149,7 @@ jupyter notebook
 
 # 2. Put your name in the name of your application.
 # 3. Kill your application when your have finished with it.
-# 4. Don't interfere with any of the virtual machines in the cluster.
+# 4. Don't interfere with any of the virtual machines in the cluster. Don't attempt to add your own machine to the cluster.
 # 5. Run one app at a time.
 # 6. When the lab is not running, you can use more resources, but keep an eye on other people using the system.
 
