@@ -1,3 +1,6 @@
+########################################################################################################################
+##### Spark deploy instructions - First step of A2 #####
+
 # These are instructions for deploying Apache Spark.
 # They include a hacks relevant for the SNIC cloud, which we wouldn't use for a production system.
 # For the lab, a spark cluster has already been deployed -- this will be an experiment!
@@ -6,13 +9,13 @@
 #        http://130.238.29.245:8080
 #        http://130.238.29.245:50070
 
-# 0. Create a virtual machine (or use an existing one), and connect to the Spark cluster as a client.
+# 0. Create a virtual machine (or use an existing one), this instance will be used to connect to the Spark cluster as a client.
 #    Your virtual machine should be 'ssc.small' flavor.
 #    Use Ubuntu 18.04 LTS as the source image.
 # 0. Add it to the 'spark-cluster-client' security group for it to work correctly with Spark.
 #    (The machines in the Spark cluster need to be able to connect to your VM)
 # 0. Add a floating IP to the VM
-# 0. Configure the ~/.ssh/config on your laptop/desktop machine like this:
+# 0. Configure the ~/.ssh/config on your local laptop/desktop/lab computer like this (this is for the university lab machines or other unix-like systems and WSL, you may have to modify the instruction if you are using some other system):
 
 # replace 130.238.x.y and ~/.ssh/id_rsa with your floating IP and key path appropriately.
 Host 130.238.x.y
@@ -24,7 +27,8 @@ Host 130.238.x.y
   LocalForward 4042 localhost:4042
   LocalForward 4043 localhost:4043
 
-
+This will open ssh-tunnels (for the given ports) between your local computer and the VM. This will enable you to access e.g a jupyter
+notebook via your browser by localhost:8888
 
 
 #####################
@@ -42,7 +46,7 @@ sudo apt-get install -y openjdk-8-jdk
 
 
 # manually define a hostname for all the hosts on the ldsa project. this will make networking easier with spark:
-# if you have added entries to /etc/hosts yourself, you need to remove those.
+# NOTE! if you have added entries to /etc/hosts yourself, you need to remove those.
 for i in {1..255}; do echo "192.168.1.$i host-192-168-1-$i-ldsa" | sudo tee -a /etc/hosts; done
 for i in {1..255}; do echo "192.168.2.$i host-192-168-2-$i-ldsa" | sudo tee -a /etc/hosts; done
 
@@ -54,7 +58,7 @@ sudo hostname host-$(hostname -I | awk '{$1=$1};1' | sed 's/\./-/'g)-ldsa ; host
 # For the lab, we'll just create a Python notebook, and use the existing Spark cluster.
 
 ########################################################################################################################
-##### Start Spark Master/Worker -- SKIP THIS FOR THE LAB SESSION!!! Proceed to 'Install the Python Notebook...') #####
+##### Start Spark Master/Worker -- !!!SKIP THIS FOR THE LAB SESSION!!! Proceed to 'Install the Python Notebook...') #####
 
 cd ~
 
@@ -130,9 +134,23 @@ jupyter notebook
 #    to login with a token:
 #        http://localhost:8888/?token=8af4be03b08713c66d8d093a7d684108c69c86f5b63dd
 
+# Now you can run the examples from the lectures in your own notebook.
+# Start with ldsa-2019/Lecture1_Example1_ArraySquareandSum.ipynb
+# You'll need to change the host name for the Spark master, and namenode, to:
+#  192.168.1.153
 
+# When you start your application, you'll see it running in the Spark master web GUI (link at the top).
+# If you hover over the link to your application, you'll see the port number for the Web GUI for your application.
+# It will be 4040,4041,...
+# You can open the GUI in your web browser like this (e.g.):
+#   http://localhost:4040
 
 ########################################################################################################################
+##### Creating your own notebook that deploys spark jobs to the cluster #####
+
+# When working on your own notebooks, save them in your own git repository (which you created in A1, do a git clone) and
+# make sure to commit and push changes often (for backup purposes).
+# You can use ldsa-2019/Lecture1_Example1_ArraySquareandSum.ipynb as a template for your notebooks
 
 # You need to share the Spark cluster with the other students:
 
@@ -152,18 +170,3 @@ jupyter notebook
 # 4. Don't interfere with any of the virtual machines in the cluster. Don't attempt to add your own machine to the cluster.
 # 5. Run one app at a time.
 # 6. When the lab is not running, you can use more resources, but keep an eye on other people using the system.
-
-# Now you can run the examples from the lectures in your own notebook.
-# Start with https://github.com/benblamey/jupyters-public/blob/master/ldsa-2019/Lecture1_Example1_ArraySquareandSum.ipynb
-# You'll need to change the host name for the Spark master, and namenode, to:
-#  192.168.1.153
-
-
-# When you start your application, you'll see it running in the Spark master web GUI (link at the top).
-# If you hover over the link to your application, you'll see the port number for the Web GUI for your application.
-# It will be 4040,4041,...
-# You can open the GUI in your web browser like this (e.g.):
-#   http://localhost:4040
-
-
-# P.S. Backup your code from the SNIC Cloud!
