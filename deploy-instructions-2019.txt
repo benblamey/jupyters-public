@@ -15,7 +15,9 @@
 # 0. Add it to the 'spark-cluster-client' security group for it to work correctly with Spark.
 #    (The machines in the Spark cluster need to be able to connect to your VM)
 # 0. Add a floating IP to the VM
-# 0. Configure the ~/.ssh/config on your local laptop/desktop/lab computer like this (this is for the university lab machines or other unix-like systems and WSL, you may have to modify the instruction if you are using some other system):
+# 0. Configure the ~/.ssh/config on your local laptop/desktop/lab computer like this.
+#    This is for the university lab machines or other unix-like systems and (Windows Subsystem for Linux) WSL, you may have
+#    to modify the instructions if you are using some other system):
 
 # replace 130.238.x.y and ~/.ssh/id_rsa with your floating IP and key path appropriately.
 Host 130.238.x.y
@@ -27,8 +29,8 @@ Host 130.238.x.y
   LocalForward 4042 localhost:4042
   LocalForward 4043 localhost:4043
 
-This will open ssh-tunnels (for the given ports) between your local computer and the VM. This will enable you to access e.g a jupyter
-notebook via your browser by localhost:8888
+# This will open ssh-tunnels (for the given ports) between your local computer and the VM. This will enable you to access e.g a jupyter
+# notebook via your browser by localhost:8888. Note: the first port listed is the port on your local machine, localhost:XXXX refers to the remote machine.
 
 
 #####################
