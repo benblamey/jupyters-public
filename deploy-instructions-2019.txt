@@ -152,7 +152,6 @@ jupyter notebook
 
 # When working on your own notebooks, save them in your own git repository (which you created in A1, do a git clone) and
 # make sure to commit and push changes often (for backup purposes).
-# You can use ldsa-2019/Lecture1_Example1_ArraySquareandSum.ipynb as a template for your notebooks
 
 # You need to share the Spark cluster with the other students:
 
