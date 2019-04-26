@@ -32,6 +32,9 @@ Host 130.238.x.y
 # This will open ssh-tunnels (for the given ports) between your local computer and the VM. This will enable you to access e.g a jupyter
 # notebook via your browser by localhost:8888. Note: the first port listed is the port on your local machine, localhost:XXXX refers to the remote machine.
 
+# Note: having setup the config file, when you connect with SSH do it like this (without any additional parameters).
+# ssh 130.238.x.y
+
 
 #####################
 
