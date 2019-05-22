@@ -89,7 +89,7 @@ tar -xvf hadoop-2.7.7.tar.gz
 # Notes
 # 1. Please don't attempt to connect your namenodes/datanodes to the existing cluster!
 # 1. This is a shared resource, use it sensibly. Please keep an eye on disk space.
-# 1. Don't interfere with data from the other teams.
+# 1. There is a folder for your team. Don't interfere with data from the other teams.
 
 
 ########################################################################################################################
