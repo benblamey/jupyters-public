@@ -62,6 +62,36 @@ sudo hostname host-$(hostname -I | awk '{$1=$1};1' | sed 's/\./-/'g)-ldsa ; host
 # ... the next steps depend on what we want this node to be... a master, a worker, or run a Python notebook...
 # For the lab, we'll just create a Python notebook, and use the existing Spark cluster.
 
+
+########################################################################################################################
+##### Install HDFS (e.g. to connect to cluster) -- !!!SKIP THIS FOR THE LAB SESSION!!! Proceed to 'Install the Python Notebook...') #####
+
+# This section describes how to install Hadoop to allow you to add your own files to the Hadoop Cluster.
+
+# We assume we've already installed Java above (OpenJDK).
+# HDFS needs to know where Java is... we use an environment variable for this.
+# Lets put it in the .bashrc file so we don't need to set it each time
+echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre" >> ~/.bashrc
+
+# Run the file so its available now.
+source ~/.bashrc
+
+# Download hadoop:
+cd ~
+wget http://apache.mirrors.spacedump.net/hadoop/common/hadoop-2.7.7/hadoop-2.7.7.tar.gz
+
+tar -xvf hadoop-2.7.7.tar.gz
+
+# Now we can use HDFS to copy files in and out of the storage cluster for use with Spark:
+# The namenode host can be set in a config file, or as here, directly on the command line.
+~/hadoop-2.7.7/bin/hdfs dfs -Dfs.defaultFS="hdfs://192.168.1.153:9000" -ls /
+
+# Notes
+# 1. Please don't attempt to connect your namenodes/datanodes to the existing cluster!
+# 1. This is a shared resource, use it sensibly. Please keep an eye on disk space.
+# 1. Don't interfere with data from the other teams.
+
+
 ########################################################################################################################
 ##### Start Spark Master/Worker -- !!!SKIP THIS FOR THE LAB SESSION!!! Proceed to 'Install the Python Notebook...') #####
 
