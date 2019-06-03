@@ -99,7 +99,7 @@ cd ~
 
 # download Spark
 # (Get download link for Hadoop 2.7)
-wget http://apache.mirrors.spacedump.net/spark/spark-2.4.2/spark-2.4.2-bin-hadoop2.7.tgz
+wget https://archive.apache.org/dist/spark/spark-2.4.2/spark-2.4.2-bin-hadoop2.7.tgz
 
 tar -zxvf spark-2.4.2-bin-hadoop2.7.tgz
 
@@ -127,6 +127,7 @@ netstat -tna
 # is it running?
 jps
 
+# After this, you will need to setup security groups for the firewall configuration. Have a look how its done for the shared cluster.
 
 ########################################################################################################################
 ##### Install the Python Notebook -- RESUME HERE FOR THE LAB  #####
