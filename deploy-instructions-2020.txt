@@ -135,6 +135,6 @@ Follow the instructions you see -- copy the link into your browser.
 
 # 2. Put your name in the name of your application.
 # 3. Kill your application when your have finished with it.
-# 4. Don't interfere with any of the virtual machines in the cluster. Don't attempt to add your own machine to the cluster.
+# 4. Don't interfere with any of the virtual machines in the cluster.
 # 5. Run one app at a time.
 # 6. When the lab is not running, you can use more resources, but keep an eye on other people using the system.
