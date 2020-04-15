@@ -1,0 +1,140 @@
+########################################################################################################################
+##### Spark deploy instructions - First step of A3 #####
+
+A Spark/HDFS cluster has been deployed for you to use. First we'll configure ports and security.
+You can use a new or existing VM.
+
+# 0. The web GUIs for Spark and HDFS are not open publicly, so we'll need to configure some port forwarding so that you
+can access them via the TCP ports.
+
+To do this, create or modify the file ~/.ssh/config on your local (laptop) computer by adding a section like the one shown below:
+(This is unix-like systems and (Windows Subsystem for Linux) WSL, you may have to modify the instructions if you are using some other system).
+
+# replace 130.238.x.y and ~/.ssh/id_rsa with your floating IP and key path appropriately.
+Host 130.238.x.y
+  User ubuntu
+  # modify this to match the name of your key
+  IdentityFile ~/.ssh/id_rsa
+  # Spark master web GUI
+  LocalForward 8080 192.168.2.87:8080
+  # HDFS namenode web gui
+  LocalForward 50070 192.168.2.87:50070
+  # python notebook
+  LocalForward 8888 localhost:8888
+  # spark contexts
+  LocalForward 4040 localhost:4040
+  LocalForward 4041 localhost:4041
+  LocalForward 4042 localhost:4042
+  LocalForward 4043 localhost:4043
+
+
+With these settings, you can connect to your host like this (without any additional parameters):
+
+ssh 130.238.x.y
+
+And when you access localhost:8080 in your browser, it will be forwarded to 192.168.2.87:8080 - the Web GUI of the Spark master.
+
+# 0. Check the Spark and HDFS cluster is operating by opening these links in your browser
+#        http://localhost:8080
+#        http://localhost:50070
+
+For HDFS, try Utilities > Browse to see the files on the cluster.
+
+
+# 0. Add your VM to the 'spark-cluster-client' security group for it to work correctly with Spark.
+#    (The machines in the Spark cluster need to be able to connect to your VM)
+
+
+#####################
+### These instructions are for Ubuntu 18.04
+
+
+# update apt repo metadata
+sudo apt update
+
+# install java
+sudo apt-get install -y openjdk-8-jdk
+
+# manually define a hostname for all the hosts on the ldsa project, this will make networking easier with spark:
+# NOTE! if you have added entries to /etc/hosts yourself, you need to remove those.
+for i in {1..255}; do echo "192.168.1.$i host-192-168-1-$i-ldsa" | sudo tee -a /etc/hosts; done
+for i in {1..255}; do echo "192.168.2.$i host-192-168-2-$i-ldsa" | sudo tee -a /etc/hosts; done
+
+# set the hostname according to the scheme above:
+sudo hostname host-$(hostname -I | awk '{$1=$1};1' | sed 's/\./-/'g)-ldsa ; hostname
+
+########################################################################################################################
+##### Install the Python Notebook #####
+
+# Env variable so the workers know which Python to use...
+echo "export PYSPARK_PYTHON=python3" >> ~/.bashrc
+source ~/.bashrc
+
+# install git
+sudo apt-get install -y git
+
+# install python dependencies, start notebook
+
+# install the python package manager 'pip' -- it is recommended to do this directly 
+sudo apt-get install -y python3-pip
+
+# check the version -- this is a very old version of pip:
+python3 -m pip --version
+
+# upgrade it
+python3 -m pip install pip
+
+# check the version again -- now its 20.0.2 -- that's more up to date!
+python3 -m pip --version
+
+# install pyspark (the matching version as the cluster), and some other useful deps
+python3 -m pip install pyspark==2.4.5 --user
+python3 -m pip install pandas --user
+python3 -m pip install matplotlib --user
+
+# clone the examples from the lectures, so we have a copy to experiment with
+git clone https://github.com/benblamey/jupyters-public.git
+
+# install jupyter (installing via pip seems to be broken)
+sudo apt install -y jupyter-notebook
+
+# start the notebook!
+jupyter notebook
+
+Follow the instructions you see -- copy the link into your browser.
+
+# Now you can run the examples from the lectures in your own notebook.
+# Start with ldsa-2020/Lecture1_Example1_ArraySquareandSum.ipynb
+# You'll need to change the host name for the Spark master, and namenode, to:
+#  192.168.2.87
+
+# When you start your application, you'll see it running in the Spark master web GUI (link at the top).
+# If you hover over the link to your application, you'll see the port number for the Web GUI for your application.
+# It will be 4040,4041,...
+# You can open the GUI in your web browser like this (e.g.):
+#   http://localhost:4040
+
+########################################################################################################################
+##### Creating your own notebook that deploys spark jobs to the cluster #####
+
+# When working on your own notebooks, save them in your own git repository (which you created in A1, do a git clone) and
+# make sure to commit and push changes often (for backup purposes).
+
+# You need to share the Spark cluster with the other students:
+
+# 1. Start your application with dynamic allocation enabled, a timeout of no more than 30 seconds, and a cap on CPU cores:
+#spark_session = SparkSession\
+#        .builder\
+#        .master("spark://192.168.2.87:7077") \
+#        .appName("blameyben_lecture1_simple_example")\
+#        .config("spark.dynamicAllocation.enabled", True)\
+#        .config("spark.shuffle.service.enabled", True)\
+#        .config("spark.dynamicAllocation.executorIdleTimeout","30s")\
+#        .config("spark.executor.cores",4)\
+#        .getOrCreate()
+
+# 2. Put your name in the name of your application.
+# 3. Kill your application when your have finished with it.
+# 4. Don't interfere with any of the virtual machines in the cluster. Don't attempt to add your own machine to the cluster.
+# 5. Run one app at a time.
+# 6. When the lab is not running, you can use more resources, but keep an eye on other people using the system.

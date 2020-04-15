@@ -37,6 +37,8 @@ Host 130.238.x.y
 
 
 #####################
+### IIRC these instructions are for Ubuntu 16.04
+
 
 # Hack to fix issue with ubuntu packages
 sudo sed -ie 's/nova.clouds.archive.ubuntu.com/se.archive.ubuntu.com/' /etc/apt/sources.list 
