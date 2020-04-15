@@ -101,7 +101,7 @@ sudo apt install -y jupyter-notebook
 # start the notebook!
 jupyter notebook
 
-Follow the instructions you see -- copy the link into your browser.
+# ...follow the instructions you see -- copy the link into your browser.
 
 # Now you can run the examples from the lectures in your own notebook.
 # Start with ldsa-2020/Lecture1_Example1_ArraySquareandSum.ipynb
