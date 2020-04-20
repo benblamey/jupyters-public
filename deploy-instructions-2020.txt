@@ -40,8 +40,7 @@ And when you access localhost:8080 in your browser, it will be forwarded to 192.
 
 For HDFS, try Utilities > Browse to see the files on the cluster.
 
-
-# 0. Add your VM to the 'spark-cluster-client' security group for it to work correctly with Spark.
+# 0. Assign the security group 'spark-cluster-client' to your virtual machine for it to work correctly with Spark.
 #    (The machines in the Spark cluster need to be able to connect to your VM)
 
 
@@ -104,6 +103,7 @@ jupyter notebook
 # ...follow the instructions you see -- copy the link into your browser.
 
 # Now you can run the examples from the lectures in your own notebook.
+# Using the Jupyter Notebook, navigate into the directory you just cloned from GitHub.
 # Start with ldsa-2020/Lecture1_Example1_ArraySquareandSum.ipynb
 # You'll need to change the host name for the Spark master, and namenode, to:
 #  192.168.2.87
