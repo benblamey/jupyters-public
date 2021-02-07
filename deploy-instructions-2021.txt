@@ -150,7 +150,7 @@ spark_session = SparkSession\
         .config("spark.dynamicAllocation.enabled", True)\
         .config("spark.shuffle.service.enabled", True)\
         .config("spark.dynamicAllocation.executorIdleTimeout","30s")\
-        .config("spark.executor.cores",4)\
+        .config("spark.executor.cores",2)\
         .config("spark.driver.port",9998)\
         .config("spark.blockManager.port",9999)\
         .getOrCreate()
