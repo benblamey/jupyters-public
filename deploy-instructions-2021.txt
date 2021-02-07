@@ -151,8 +151,6 @@ spark_session = SparkSession\
         .config("spark.shuffle.service.enabled", True)\
         .config("spark.dynamicAllocation.executorIdleTimeout","30s")\
         .config("spark.executor.cores",2)\
-        .config("spark.driver.port",9998)\
-        .config("spark.blockManager.port",9999)\
         .getOrCreate()
 
 # 2. Put your name in the name of your application.
