@@ -1,5 +1,8 @@
 ########################################################################################################################
-##### Spark deploy instructions - First step of A3 #####
+##### Spark deploy instructions #####
+
+Your Spark applications will run in the cluster, but the 'driver' application will run on your machine.
+I recommend 2GB RAM and 1 or 2 CPU cores for your driver VM.
 
 A Spark/HDFS cluster has been deployed for you to use. First we'll configure ports and security.
 You can use a new or existing VM.
