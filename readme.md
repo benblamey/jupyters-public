@@ -12,5 +12,5 @@ rsync -vv --dry-run --recursive --delete benblamey-ldsa-2020:~/jupyters-public/l
 rsync -vv --recursive --delete benblamey-2021:~/jupyters-public/de-2021 .
 
 Send:
-rsync -vv --dry-run --recursive --delete de- benblamey-2021:~/jupyters-public/de-2021
+rsync -vv --dry-run --recursive --delete de-2021 benblamey-2021:~/jupyters-public/de-2021
 ```
