@@ -36,17 +36,6 @@ Host 130.238.x.y
   LocalForward 4047 localhost:4047
   LocalForward 4048 localhost:4048
   LocalForward 4049 localhost:4049
-  LocalForward 4050 localhost:4050
-  LocalForward 4051 localhost:4051
-  LocalForward 4052 localhost:4052
-  LocalForward 4053 localhost:4053
-  LocalForward 4054 localhost:4054
-  LocalForward 4055 localhost:4055
-  LocalForward 4056 localhost:4056
-  LocalForward 4057 localhost:4057
-  LocalForward 4058 localhost:4058
-  LocalForward 4059 localhost:4059
-  LocalForward 4060 localhost:4060
 
 Notes:
 - The 'IdentityFile' line follows the same syntax whether you are using a .pem key file, or an OpenSSH key file (without an extension), as shown above. For a .pem, write something like this:
