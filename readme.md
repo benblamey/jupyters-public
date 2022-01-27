@@ -2,6 +2,11 @@ Jupyter notebooks from different machines, including Apache Spark teaching examp
 
 Ben Blamey
 
+"Teaching Materials" (https://github.com/benblamey/jupyters-public) © 2018 by Ben Blamey (https://benblamey.com/) is licensed under Attribution-NonCommercial-ShareAlike 4.0   International (https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1)
+
+
+
+
 
 Note to self
 
